@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Create post{% endblock %}
+
+{% block profile %}
+<style>
+  .bg-black {
+  --bs-bg-opacity: 25%;
+  background-color:  var(--bs-bg-opacity)) !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container   p-3 mb-2 bg-black text-white   rounded-4">
+  <form action="{% url 'create-post' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <div class="mb-3   d-grid gap-2">
+      <button type="submit" class="btn btn-primary">Add Post</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

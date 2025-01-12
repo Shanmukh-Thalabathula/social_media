@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ profile.user.username }}'s Profile{% endblock %}
+
+{% block profile %}
+<style>
+    .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 20px auto;
+    }
+    .post-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Profile Header -->
+    <div class="row align-items-center mb-4">
+        <div class="col-md-4 text-center">
+            <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+        </div>
+        <div class="col-md-8">
+            <h2 class="fw-bold">{{ profile.user.username }}</h2>
+            <div class="d-flex align-items-center mb-3">
+                <div class="me-3">
+                    <strong>{{ posts.count }}</strong> Posts
+                </div>
+                <div class="me-3">
+                    <strong>{{ followers_count }}</strong>
+                    <a href="" class="link-light link-underline">Followers</a>
+                </div>
+                <div>
+                    <strong>{{ following_count }}</strong>
+                    <a href="" class="link-light link-underline">Following</a>
+                </div>
+            </div>
+            <p class="text">{{ profile.bio }}</p>
+            {% if request.user == profile.user %}
+                <a href="{% url 'edit-user-profile' %}" class="btn btn-outline-primary">Edit Profile</a>
+                <a href="#" class="btn btn-outline-primary">Messages</a>
+            {% else %}
+                {% if is_following %}
+                    <a href="{% url 'unfollow' profile.user.username %}" class="btn btn-outline-danger">UnFollow</a>
+                {% else %}
+                    <a href="{% url 'follow' profile.user.username %}" class="btn btn-outline-success">Follow</a>
+                {% endif %}
+                <a href="#" class="btn btn-outline-primary">Message</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Posts Grid -->
+    <hr>
+    <div class="row">
+        {% if posts %}
+            {% for post in posts %}
+                <div class="col-md-4 mb-4">
+                    <img src="{{ post.image.url }}" alt="Post" class="post-image">
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted text-center">No posts to show.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

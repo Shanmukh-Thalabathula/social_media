@@ -1,0 +1,40 @@
+{% extends 'master.html' %}
+
+{% block title %}Login or Register{% endblock %}
+
+{% block content %}
+
+{% if 'login' == page %}
+
+<div class="container   p-3 mb-2 bg-light-subtle text-light-emphasis   rounded-3">
+    <form action="{% url 'user-login' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label"><b>User Name</b></label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your user name" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label"><b>Password</b></label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <p>Don't have an Accout? <a href="{% url 'user-register' %}">Register</a></p>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+
+{% else %}
+
+<div class="container   p-3 mb-2 bg-light-subtle text-light-emphasis rounded-3">
+     <form action="{% url 'user-register' %}" method='post'>
+        {% csrf_token %}
+        <div class="mb-3">
+            {{form.as_p}}
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+
+
+{% endif %}
+
+{% endblock %}

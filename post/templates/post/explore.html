@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Explore All{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+  {% if explore %}
+    <div class="row g-4">
+      {% for exp in explore %}
+        <div class="col-md-6 post-image"
+             style="background-image: url('{{ exp.image.url }}'); background-size: cover; background-position: center; height: 300px;">
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-center align-items-start mt-3">
+          <h3><a href="{% url 'user-profile' exp.user.username %}">@{{ exp.user.username }}</a></h3>
+          <h5>Post Title</h5>
+          <p>{{ exp.title }}</p>
+          <h5>Post Content</h5>
+          <p>{{ exp.content }}</p>
+
+          <div class="d-flex justify-content-between align-items-center" style="width: 20%">
+            <div class="d-flex justify-content-between" style="width: 40%">
+              <strong>{{ exp.like_set.count }}</strong>
+              <a href="{% url 'like-post' exp.id %}">
+                <i class="fa-regular fa-heart fs-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div>
+      <h1>There isn't anything to explore</h1>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
